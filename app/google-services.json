@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:554693388658:android:c1066701ce1c0a148ed5eb",
         "android_client_info": {
-          "package_name": "com.example.runiq"
+          "package_name": "com.runiq"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "554693388658-1bv85m41eovh2id69jkhl4hod4m15ge6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.runiq",
+            "package_name": "com.runiq",
             "certificate_hash": "c521647247a6a8f66b29e86677dc96179788d49f"
           }
         },
