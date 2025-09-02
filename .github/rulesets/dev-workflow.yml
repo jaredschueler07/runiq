@@ -1,0 +1,13 @@
+# .github/rulesets/dev-workflow.yml  
+name: "Development Workflow"
+target: "branch"
+enforcement: "active"
+conditions:
+  ref_name:
+    include: ["refs/heads/feature/*", "refs/heads/bugfix/*", "refs/heads/hotfix/*"]
+rules:
+  - type: "required_status_checks"
+    parameters:
+      required_status_checks:
+        - "build-and-test"
+        - "lint-check"
