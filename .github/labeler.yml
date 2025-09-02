@@ -1,0 +1,58 @@
+# .github/labeler.yml
+# Automatically label PRs based on paths
+'dependencies':
+  - 'gradle/**/*'
+  - '*.gradle*'
+  - 'gradle.properties'
+
+'documentation':
+  - '*.md'
+  - 'docs/**/*'
+
+'ci/cd':
+  - '.github/**/*'
+
+'health-connect':
+  - '**/*health*'
+  - '**/*Health*'
+
+'ai-coaching':
+  - '**/*coach*'
+  - '**/*Coach*'
+  - '**/*coaching*'
+
+'spotify':
+  - '**/*spotify*'
+  - '**/*Spotify*'
+  - '**/*music*'
+  - '**/*Music*'
+
+'database':
+  - '**/*dao*'
+  - '**/*entity*'
+  - '**/*database*'
+  - '**/*Database*'
+
+'ui':
+  - '**/ui/**/*'
+  - '**/compose/**/*'
+  - '**/*Screen.kt'
+  - '**/theme/**/*'
+
+'architecture':
+  - '**/domain/**/*'
+  - '**/data/**/*'
+  - '**/di/**/*'
+  - '**/*Repository*'
+  - '**/*UseCase*'
+
+'services':
+  - '**/services/**/*'
+  - '**/*Service.kt'
+  - '**/*Worker.kt'
+
+'testing':
+  - '**/test/**/*'
+  - '**/androidTest/**/*'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
