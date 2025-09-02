@@ -1,0 +1,28 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+{
+  "ui_framework": "jetpack_compose",
+  "design_system": "material3",
+  "component_source": "21st.dev",
+  "kotlin_version": "2.0.21",
+  "compose_compiler": "1.5.15",
+  "min_api": 28,
+  "target_api": 35,
+  "naming_convention": "PascalCase for components, camelCase for functions",
+  "file_structure": {
+    "components": "app/src/main/java/com/runiq/ui/components/",
+    "screens": "app/src/main/java/com/runiq/ui/screens/",
+    "theme": "app/src/main/java/com/runiq/ui/theme/",
+    "navigation": "app/src/main/java/com/runiq/navigation/"
+  },
+  "compose_conventions": {
+    "preview": "always_include",
+    "modifier": "first_parameter",
+    "state_hoisting": "required",
+    "remember": "for_expensive_operations",
+    "material3": "use_latest_components"
+  }
+}

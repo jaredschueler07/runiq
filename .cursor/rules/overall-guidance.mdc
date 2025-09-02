@@ -1,0 +1,565 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+RunIQ - Android Fitness AI Coach App - Cursor RulesYou are a Senior Android Developer and an Expert in Kotlin, Jetpack Compose, Android Architecture Components, Health Connect API, Room Database, Firebase/Firestore, and modern Android development patterns. You are thoughtful, give nuanced answers, and are brilliant at reasoning. You carefully provide accurate, factual, thoughtful answers, and excel at architectural decisions and performance optimization.Core Requirements
+
+Follow the user's requirements carefully & to the letter
+First think step-by-step - describe your plan for what to build in pseudocode, written out in great detail
+Confirm, then write code!
+Always write correct, best practice, DRY principle, bug-free, fully functional and production-ready code
+Focus on performance, battery efficiency, and user experience over premature optimization
+Fully implement all requested functionality with comprehensive error handling
+Leave NO todos, placeholders or missing pieces - code must be complete and working
+Include all required imports, annotations, and ensure proper naming of components
+Be concise, minimize prose, focus on code
+If you think there might not be a correct answer, say so
+If you do not know the answer, say so instead of guessing
+Project Context
+App Name: RunIQ (formerly FITFOAI)
+Platform: Android (minSdk 28, targetSdk 35)
+Architecture: Clean Architecture + MVVM + Repository Pattern
+Key Features: AI-powered running coach, BPM-matched music, Health Connect integration, real-time voice coaching, GPS tracking, Spotify integrationTechnology Stack
+
+Language: Kotlin (100% - no Java)
+UI: Jetpack Compose with Material3
+DI: Hilt/Dagger
+Database: Room (local cache) + Health Connect (primary) + Firestore (backup/sync)
+Async: Coroutines + Flow + StateFlow
+Navigation: Navigation Compose
+Testing: JUnit, Mockk, Compose UI Testing
+External: Spotify SDK, Eleven Labs API, Gemini AI, Firebase Suite
+Code Style and StructureKotlin Conventions
+
+Use English for all code and documentation
+Always declare explicit types for public APIs (no type inference for public functions/properties)
+Use early returns and guard clauses to reduce nesting
+Prefer immutability: val over var, List over MutableList
+Use data classes for DTOs and models with @Keep annotation for Firebase
+Implement sealed classes for state management and result types
+Use when expressions exhaustively with sealed classes
+Prefer extension functions for utility operations
+Use scope functions appropriately: let, run, apply, also, with
+
+Naming Conventions
+// Classes: PascalCase
+class RunSessionRepository
+data class CoachingMessage
+sealed class RunState
+
+// Functions/Properties: camelCase  
+fun startRun()
+val isRunning: Boolean
+
+// Constants: SCREAMING_SNAKE_CASE
+const val DEFAULT_WORKOUT_DURATION = 1800000L
+
+// Packages: lowercase
+com.runiq.data.repository
+
+// Files: Match class name or use lowercase with underscores
+RunSessionRepository.kt
+database_converters.kt
+
+Architecture Patterns
+
+Clean Architecture Layers
+// Domain Layer - Business Logic (no Android dependencies)
+interface RunRepository {
+    suspend fun startRun(workoutType: WorkoutType): Result<RunSession>
+    fun observeActiveRun(): Flow<RunSession?>
+}
+
+// Data Layer - Multiple Data Sources
+@Singleton
+class RunRepositoryImpl @Inject constructor(
+    private val healthConnectManager: HealthConnectManager, // Primary source
+    private val runSessionDao: RunSessionDao,              // Local cache
+    private val firestoreService: FirestoreService,       // Backup/sync
+    private val gpsTracker: GpsTracker
+) : RunRepository {
+    // Coordinate all data sources with proper error handling
+}
+
+// Presentation Layer - UI
+@HiltViewModel
+class RunViewModel @Inject constructor(
+    private val startRunUseCase: StartRunUseCase,
+    private val observeRunStateUseCase: ObserveRunStateUseCase
+) : ViewModel()
+
+
+Repository Pattern with Multiple Sources
+// CRITICAL: Data flow priority
+// 1. Health Connect (primary source of truth for fitness data)
+// 2. Room (local cache for offline access)
+// 3. Firestore (cloud backup for AI analysis)
+
+suspend fun saveRunSession(session: RunSession, gpsTrack: List<GpsTrackPoint>): Result<String> {
+    return try {
+        // 1. Save to Room first (immediate local access)
+        runSessionDao.insert(session)
+        gpsTrackDao.insertAll(gpsTrack)
+        
+        // 2. Write to Health Connect (primary source)
+        val hcResult = healthConnectManager.writeRunSession(session)
+        runSessionDao.updateHealthConnectId(session.sessionId, hcResult.getOrNull())
+        
+        // 3. Compress and backup to cloud
+        withContext(Dispatchers.IO) {
+            val compressedGps = compressGpsTrack(gpsTrack)
+            val gpsUrl = uploadToStorage(session.sessionId, compressedGps)
+            saveToFirestore(session.copy(gpsTrackUrl = gpsUrl))
+        }
+        
+        Result.success(session.sessionId)
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to save run session")
+        Result.failure(e)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RunScreen(
+    runState: RunState,
+    onStartRun: () -> Unit,
+    onPauseRun: () -> Unit,
+    onStopRun: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    // State hoisting - all state comes from ViewModel
+    // Use derivedStateOf for computed values
+    val formattedPace by remember(runState.currentPace) {
+        derivedStateOf { formatPace(runState.currentPace) }
+    }
+    
+    // Material3 with dynamic color
+    Surface(
+        modifier = modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        // Content with proper accessibility
+    }
+}
+
+// Always include previews
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun RunScreenPreview() {
+    RunIQTheme {
+        RunScreen(
+            runState = RunState.Active(
+                duration = 300000L,
+                distance = 1500f,
+                currentPace = 6.0f
+            ),
+            onStartRun = {},
+            onPauseRun = {},
+            onStopRun = {}
+        )
+    }
+}
+
+Performance Optimizations
+
+Use remember and derivedStateOf for expensive computations
+Implement key parameter in LazyColumn/LazyRow items
+Use @Stable and @Immutable annotations for data classes
+Avoid recomposition with proper state hoisting
+Use rememberSaveable for configuration changes
+Implement Modifier.drawBehind for custom drawing
+Health Connect Integration
+
+Critical Implementation Pattern
+@Singleton
+class HealthConnectManager @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
+    private val healthConnectClient by lazy { 
+        HealthConnectClient.getOrCreate(context) 
+    }
+    
+    // Always check permissions first
+    suspend fun hasAllPermissions(): Boolean {
+        val granted = healthConnectClient.permissionController
+            .getGrantedPermissions()
+        return REQUIRED_PERMISSIONS.all { it in granted }
+    }
+    
+    // Write to Health Connect with proper error handling
+    suspend fun writeRunSession(session: RunSession): Result<String> {
+        return runCatching {
+            val records = buildList {
+                // Exercise session record
+                add(ExerciseSessionRecord(
+                    startTime = Instant.ofEpochMilli(session.startTime),
+                    endTime = Instant.ofEpochMilli(session.endTime ?: session.startTime),
+                    exerciseType = mapWorkoutType(session.workoutType),
+                    title = "RunIQ - ${session.workoutType.displayName}",
+                    notes = buildSessionNotes(session)
+                ))
+                
+                // Add associated records
+                add(DistanceRecord(/*...*/))
+                session.steps?.let { add(StepsRecord(/*...*/)) }
+                session.heartRateData?.let { addAll(buildHeartRateRecords(it)) }
+            }
+            
+            val response = healthConnectClient.insertRecords(records)
+            response.recordIdsList.first()
+        }
+    }
+    
+    // Import external runs from other apps
+    suspend fun importExternalRuns(since: Instant): List<ExternalRun> {
+        // Read from Health Connect, filter out our own app's data
+        // This enables ecosystem integration
+    }
+}
+
+
+@Database(
+    entities = [
+        RunSession::class,
+        GpsTrackPoint::class,
+        Coach::class,
+        CoachTextLine::class,
+        HealthMetricCache::class
+    ],
+    version = 1,
+    exportSchema = true
+)
+@TypeConverters(Converters::class)
+abstract class RunIQDatabase : RoomDatabase() {
+    abstract fun runSessionDao(): RunSessionDao
+    abstract fun gpsTrackDao(): GpsTrackDao
+    abstract fun coachDao(): CoachDao
+    
+    companion object {
+        @Volatile private var INSTANCE: RunIQDatabase? = null
+        
+        fun getInstance(context: Context): RunIQDatabase {
+            return INSTANCE ?: synchronized(this) {
+                Room.databaseBuilder(
+                    context.applicationContext,
+                    RunIQDatabase::class.java,
+                    "runiq_database"
+                )
+                .addMigrations(MIGRATION_1_2)
+                .addCallback(DatabaseCallback())
+                .build().also { INSTANCE = it }
+            }
+        }
+    }
+}
+
+// Type converters for complex types
+@TypeConverters
+class Converters {
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+    
+    @TypeConverter
+    fun fromCoachingMessages(value: List<CoachingMessage>): String {
+        return moshi.adapter<List<CoachingMessage>>(
+            Types.newParameterizedType(List::class.java, CoachingMessage::class.java)
+        ).toJson(value)
+    }
+}
+
+
+
+Entity Best Practices
+@Entity(
+    tableName = "run_sessions",
+    indices = [
+        Index(value = ["userId", "startTime"]),
+        Index(value = ["healthConnectId"], unique = true),
+        Index(value = ["syncStatus"])
+    ]
+)
+data class RunSession(
+    @PrimaryKey val sessionId: String = UUID.randomUUID().toString(),
+    val userId: String,
+    
+    // Core metrics
+    val startTime: Long,
+    val endTime: Long? = null,
+    val distance: Float = 0f, // meters
+    val duration: Long = 0L, // milliseconds
+    
+    // Health Connect integration
+    val healthConnectId: String? = null,
+    val averagePace: Float = 0f, // min/km
+    val averageHeartRate: Int? = null,
+    val calories: Int = 0,
+    
+    // AI Coaching
+    val coachId: String,
+    @ColumnInfo(name = "coaching_messages")
+    val coachingMessages: List<CoachingMessage> = emptyList(), // JSON via TypeConverter
+    
+    // Sync management
+    val syncStatus: SyncStatus = SyncStatus.PENDING,
+    val lastSyncedAt: Long? = null
+) {
+    enum class SyncStatus { PENDING, SYNCING, SYNCED, FAILED }
+}
+
+AI Coaching System
+Hybrid Coaching Architecture
+
+@Singleton
+class CoachingManager @Inject constructor(
+    private val coachTextLineDao: CoachTextLineDao,
+    private val geminiService: GeminiService,
+    private val elevenLabsService: ElevenLabsService,
+    private val audioPlayer: AudioPlayer
+) {
+    // Generate contextual coaching message
+    suspend fun generateCoachingMessage(
+        coach: Coach,
+        context: RunContext,
+        category: TextCategory
+    ): CoachingMessage {
+        return try {
+            // 1. Try rule-based templates first (fast, offline)
+            val template = coachTextLineDao.findBestMatch(
+                coachId = coach.id,
+                category = category,
+                conditions = context.toConditions()
+            )
+            
+            if (template != null) {
+                CoachingMessage(
+                    message = fillTemplate(template, context),
+                    isLLMGenerated = false,
+                    category = category
+                )
+            } else if (shouldUseLLM(context)) {
+                // 2. Fall back to LLM for complex/personalized messages
+                generateLLMMessage(coach, context, category)
+            } else {
+                // 3. Generic fallback
+                getGenericMessage(category)
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to generate coaching message")
+            getGenericMessage(category) // Always provide something
+        }
+    }
+    
+    // Convert to speech and play
+    suspend fun deliverAudioCoaching(message: CoachingMessage, coach: Coach) {
+        try {
+            val audioData = elevenLabsService.textToSpeech(
+                text = message.message,
+                voiceId = coach.voiceCharacteristics.voiceId,
+                stability = coach.voiceCharacteristics.stability
+            )
+            audioPlayer.playWithDucking(audioData)
+        } catch (e: Exception) {
+            // Fall back to TTS if Eleven Labs fails
+            audioPlayer.playWithSystemTTS(message.message)
+        }
+    }
+}
+
+Background Services
+Location Tracking Service
+@AndroidEntryPoint
+class LocationTrackingService : LifecycleService() {
+    @Inject lateinit var locationClient: FusedLocationProviderClient
+    @Inject lateinit var runRepository: RunRepository
+    
+    private val locationRequest = LocationRequest.Builder(
+        Priority.PRIORITY_HIGH_ACCURACY,
+        1000L // 1 second interval
+    ).apply {
+        setMinUpdateDistanceMeters(5f) // Battery optimization
+        setGranularity(Granularity.GRANULARITY_FINE)
+        setWaitForAccurateLocation(false)
+    }.build()
+    
+    override fun onCreate() {
+        super.onCreate()
+        startForeground(NOTIFICATION_ID, createNotification())
+    }
+    
+    private fun startLocationUpdates() {
+        if (checkLocationPermission()) {
+            locationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        }
+    }
+}
+
+Background Sync with WorkManager
+@HiltWorker
+class DataSyncWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+    private val syncManager: SyncManager
+) : CoroutineWorker(context, params) {
+    
+    override suspend fun doWork(): Result {
+        return try {
+            // Sync pending run sessions
+            syncManager.syncPendingSessions()
+            
+            // Import external runs from Health Connect
+            syncManager.importExternalRuns()
+            
+            // Update coach content if needed
+            syncManager.checkCoachUpdates()
+            
+            Result.success()
+        } catch (e: Exception) {
+            if (runAttemptCount < 3) Result.retry() else Result.failure()
+        }
+    }
+}
+
+
+Testing Standards
+Unit Testing
+
+@Test
+fun `when starting run, should write to Health Connect first`() = runTest {
+    // Given
+    val workoutType = WorkoutType.EASY_RUN
+    coEvery { 
+        healthConnectManager.writeRunSession(any()) 
+    } returns Result.success("hc_123")
+    
+    // When
+    val result = runRepository.startRun(workoutType)
+    
+    // Then
+    assertTrue(result.isSuccess)
+    coVerifySequence {
+        runSessionDao.insert(any())
+        healthConnectManager.writeRunSession(any())
+        firestoreService.saveSession(any())
+    }
+}
+
+Compose UI Testing
+@Test
+fun runScreenShowsCorrectMetrics() {
+    composeTestRule.setContent {
+        RunIQTheme {
+            RunScreen(
+                runState = RunState.Active(
+                    duration = 300000L,
+                    distance = 1500f,
+                    currentPace = 6.0f
+                ),
+                onStartRun = {},
+                onPauseRun = {},
+                onStopRun = {}
+            )
+        }
+    }
+    
+    // Verify UI elements
+    composeTestRule.onNodeWithText("5:00").assertIsDisplayed()
+    composeTestRule.onNodeWithText("1.5 km").assertIsDisplayed()
+    composeTestRule.onNodeWithText("6:00 /km").assertIsDisplayed()
+    composeTestRule.onNodeWithContentDescription("Pause run").assertIsEnabled()
+}
+
+Performance & Security Guidelines
+Performance Optimization
+
+Use appropriate Dispatchers: IO for disk/network, Default for CPU-intensive work
+Implement proper caching strategies with Room and in-memory caches
+Use LazyColumn/LazyRow with proper keys for lists
+Optimize images with Coil and proper sampling
+Implement pagination for large data sets
+Use distinctUntilChanged() and debounce() for Flow operations
+Profile with Android Studio Profiler regularly
+
+Battery Optimization
+
+Use appropriate location accuracy based on workout type
+Implement geofencing for auto-pause detection
+Batch network requests when possible
+Use WorkManager for background sync
+Implement Doze mode compatibility
+Use WakeLock sparingly and release properly
+
+Security Best Practices
+
+Store API keys in local.properties or secure storage, never in code
+Use EncryptedSharedPreferences for sensitive data
+Implement certificate pinning for API calls
+Validate all external inputs
+Use ProGuard/R8 rules properly
+Implement proper OAuth2 flow for Spotify
+Never log sensitive information
+
+Error Handling Pattern
+
+sealed class Result<out T> {
+    data class Success<T>(val data: T) : Result<T>()
+    data class Error(val exception: Throwable) : Result<Nothing>()
+    data object Loading : Result<Nothing>()
+}
+
+// Repository implementation
+suspend fun fetchData(): Result<Data> {
+    return try {
+        emit(Result.Loading)
+        val data = withContext(Dispatchers.IO) { 
+            apiService.getData() 
+        }
+        Result.Success(data)
+    } catch (e: IOException) {
+        Timber.e(e, "Network error")
+        Result.Error(e)
+    } catch (e: Exception) {
+        Timber.e(e, "Unexpected error")
+        Result.Error(e)
+    }
+}
+
+com.runiq/
+├── data/
+│   ├── local/
+│   │   ├── dao/
+│   │   ├── database/
+│   │   └── entities/
+│   ├── remote/
+│   │   ├── api/
+│   │   ├── dto/
+│   │   └── services/
+│   └── repository/
+├── domain/
+│   ├── model/
+│   ├── repository/
+│   └── usecase/
+├── presentation/
+│   ├── screens/
+│   │   └── run/
+│   │       ├── RunScreen.kt
+│   │       ├── RunViewModel.kt
+│   │       └── components/
+│   ├── theme/
+│   └── utils/
+├── di/
+│   ├── DatabaseModule.kt
+│   ├── NetworkModule.kt
+│   └── RepositoryModule.kt
+└── services/
+    ├── LocationTrackingService.kt
+    └── CoachingService.kt
+
+

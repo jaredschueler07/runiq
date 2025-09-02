@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(keytool:*)",
+      "Bash(./gradlew:*)",
+      "Bash(where java)",
+      "Bash(rm:*)",
+      "Bash(find:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
