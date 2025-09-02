@@ -1,0 +1,69 @@
+# Dependabot configuration for automated dependency updates
+# See: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Enable version updates for Gradle
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "jaredschueler07"
+    assignees:
+      - "jaredschueler07"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+    
+    # Group related updates
+    groups:
+      android:
+        patterns:
+          - "androidx.*"
+          - "com.android.*"
+      compose:
+        patterns:
+          - "androidx.compose.*"
+      firebase:
+        patterns:
+          - "com.google.firebase.*"
+          - "com.google.gms.*"
+      testing:
+        patterns:
+          - "*junit*"
+          - "*espresso*"
+          - "*mockk*"
+          - "*robolectric*"
+      
+    # Ignore specific packages that require manual updates
+    ignore:
+      - dependency-name: "com.android.tools.build:gradle"
+        # AGP updates often require manual testing
+      - dependency-name: "org.jetbrains.kotlin:kotlin-gradle-plugin"
+        # Kotlin updates should be coordinated with Compose compiler
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    reviewers:
+      - "jaredschueler07"
+    assignees:
+      - "jaredschueler07"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "ci/cd"
+      - "automated"
