@@ -5,7 +5,8 @@
       "Bash(./gradlew:*)",
       "Bash(where java)",
       "Bash(rm:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(claude mcp add:*)"
     ],
     "deny": [],
     "ask": []
