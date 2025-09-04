@@ -180,3 +180,9 @@ sealed class Result<out T> {
 ```
 
 Always wrap repository operations in try-catch blocks with proper logging using Timber, and provide meaningful error states to the UI layer.
+---
+
+## Gemini Interaction Log
+
+*   **2025-09-03:** Created `GEMINI.md` with initial interaction guidelines. The primary rule is to consult `CLAUDE.md` as the source of truth and to maintain this log for all significant actions.
+*   **2025-09-03:** Saved the Linear API key to `local.properties` and updated `GEMINI.md` with instructions for using the Linear API.

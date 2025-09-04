@@ -1,9 +1,10 @@
 # RunIQ - AI-Powered Running Coach 🏃‍♂️🤖
 
-[![Android CI](https://github.com/jaredschueler07/runiq/actions/workflows/android.yml/badge.svg)](https://github.com/jaredschueler07/runiq/actions/workflows/android.yml)
+[![Android CI](https://github.com/jaredschueler07/runiq/actions/workflows/android-ci.yml/badge.svg)](https://github.com/jaredschueler07/runiq/actions/workflows/android-ci.yml)
 [![API](https://img.shields.io/badge/API-28%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=28)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.0.21-blue.svg?logo=kotlin)](http://kotlinlang.org)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Min SDK](https://img.shields.io/badge/Min%20SDK-28-green.svg)](https://developer.android.com/studio/releases/platforms#8.0)
+[![Target SDK](https://img.shields.io/badge/Target%20SDK-36-green.svg)](https://developer.android.com/studio/releases/platforms)
 
 RunIQ is an intelligent Android fitness application that serves as your personal AI running coach. It combines real-time GPS tracking, heart rate monitoring, AI-powered coaching, and BPM-matched music to create the ultimate running experience.
 

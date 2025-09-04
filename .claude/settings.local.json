@@ -6,7 +6,11 @@
       "Bash(where java)",
       "Bash(rm:*)",
       "Bash(find:*)",
-      "Bash(claude mcp add:*)"
+      "Bash(claude mcp add:*)",
+      "mcp__linear-server__get_team",
+      "mcp__linear-server__list_issues",
+      "mcp__linear-server__list_issue_statuses",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

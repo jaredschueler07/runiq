@@ -1,119 +1,81 @@
-## 📝 Pull Request Description
+## 📋 Description
 
-### 🎯 What does this PR do?
-<!-- Provide a clear and concise description of what this PR accomplishes -->
+<!-- Provide a brief description of the changes in this PR -->
 
-### 🔗 Related Issues
-<!-- Link to related Linear issues, GitHub issues, or feature requests -->
-Closes #
-Fixes #
-Related to #
+## 🎯 Related Issue
 
-### 🧪 Type of Change
+<!-- Link to the Linear issue or GitHub issue -->
+- Linear Issue: RUN-
+- Fixes #(issue number)
+
+## 🔄 Type of Change
+
 <!-- Mark the relevant option with an "x" -->
-- [ ] 🐛 Bug fix (non-breaking change that fixes an issue)
-- [ ] ✨ New feature (non-breaking change that adds functionality)
+- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
+- [ ] ✨ New feature (non-breaking change which adds functionality)
 - [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] 📚 Documentation update
-- [ ] 🔧 Refactoring (no functional changes)
+- [ ] 📝 Documentation update
+- [ ] 🎨 Code style update (formatting, renaming)
+- [ ] ♻️ Refactoring (no functional changes)
 - [ ] ⚡ Performance improvement
-- [ ] 🧹 Code cleanup
-- [ ] 🔒 Security improvement
+- [ ] ✅ Test update
+- [ ] 🔧 Configuration change
+- [ ] 🔀 Other (please describe):
 
-### 🏗️ Architecture Impact
-<!-- Mark if this PR affects any of these areas -->
-- [ ] Data layer (Repository, Room, Health Connect)
-- [ ] Domain layer (Use cases, Models)
-- [ ] Presentation layer (ViewModels, Compose UI)
-- [ ] Background services (Location, Coaching, Sync)
-- [ ] External integrations (Spotify, Eleven Labs, Gemini)
-- [ ] Database schema changes
-- [ ] API changes
+## 📸 Screenshots/Videos
 
-### 🧪 Testing
-<!-- Describe the testing performed -->
+<!-- If applicable, add screenshots or videos to help explain your changes -->
 
-#### Unit Tests
-- [ ] Added/updated unit tests for new functionality
-- [ ] All existing unit tests pass
-- [ ] Code coverage maintained/improved
+## ✅ Checklist
 
-#### Integration Tests
-- [ ] Added/updated integration tests
-- [ ] Health Connect integration tested
-- [ ] External API integrations tested
+<!-- Mark completed items with an "x" -->
+- [ ] My code follows the project's style guidelines
+- [ ] I have performed a self-review of my code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings or errors
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally
+- [ ] Any dependent changes have been merged and published
+- [ ] I have checked my code for potential security issues
+- [ ] I have verified that no API keys or secrets are hardcoded
 
-#### Manual Testing
-- [ ] Tested on physical device (Android version: ___)
-- [ ] Tested on emulator (API level: ___)
-- [ ] Tested with different user scenarios
-- [ ] Tested offline functionality
-- [ ] Performance tested (battery, memory, CPU)
+## 🧪 Testing
 
-### 📱 Device Testing
-<!-- Mark all devices/configurations tested -->
-- [ ] Phone (Android 9+)
-- [ ] Tablet
-- [ ] Different screen densities
-- [ ] Different Android versions
-- [ ] With/without Health Connect
-- [ ] With/without Spotify
+<!-- Describe the tests you ran to verify your changes -->
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual testing completed
+- [ ] Tested on physical device
+- [ ] Tested on emulator
 
-### 🔍 Code Quality
-<!-- Ensure all checks pass -->
-- [ ] Code follows project coding standards
-- [ ] ktlint formatting applied (`./gradlew ktlintFormat`)
-- [ ] No new lint warnings introduced
-- [ ] All TODOs resolved or tracked in Linear
-- [ ] Proper error handling implemented
-- [ ] Performance considerations addressed
-- [ ] Security considerations addressed
+### Test Configuration
+- Device/Emulator:
+- Android Version:
+- Test scenarios covered:
 
-### 📊 Performance Impact
-<!-- Describe any performance implications -->
-- [ ] No significant performance impact
-- [ ] Improves performance (describe how)
-- [ ] May impact performance (describe and justify)
-- [ ] Battery usage tested and optimized
-- [ ] Memory usage profiled
+## 📱 Device Compatibility
 
-### 🔒 Security Considerations
-<!-- Mark if applicable -->
-- [ ] No sensitive data exposed
-- [ ] API keys properly secured
-- [ ] User data privacy maintained
-- [ ] Permissions properly requested/handled
-- [ ] Input validation implemented
+<!-- List the devices/emulators you tested on -->
+- [ ] API 28 (Android 8.0)
+- [ ] API 30 (Android 11)
+- [ ] API 33 (Android 13)
+- [ ] API 34 (Android 14)
+- [ ] API 36 (Latest)
 
-### 📸 Screenshots/Videos
-<!-- Add screenshots or videos demonstrating the changes -->
-<!-- For UI changes, include before/after screenshots -->
-<!-- For new features, include demo videos or GIFs -->
+## 🚀 Deployment Notes
 
-### 🚀 Deployment Notes
-<!-- Any special deployment considerations -->
-- [ ] No special deployment steps required
-- [ ] Database migration required
-- [ ] Configuration changes required
-- [ ] Requires app store update
+<!-- Any notes for deployment or things reviewers should be aware of -->
 
-### 📝 Additional Notes
-<!-- Any additional information for reviewers -->
+## 📚 Additional Context
 
-### ✅ Reviewer Checklist
-<!-- For reviewers to complete -->
-- [ ] Code review completed
-- [ ] Architecture review completed
-- [ ] Security review completed
-- [ ] Performance review completed
-- [ ] Documentation review completed
-- [ ] Testing strategy approved
+<!-- Add any other context about the PR here -->
 
 ---
 
-### 🤖 AI Agent Notes
-<!-- If this PR was created by an AI agent, include relevant context -->
-- [ ] Created by AI agent
-- [ ] Human review required for: ___
-- [ ] AI-generated code tested and verified
-- [ ] Follows project coding standards
+**Reviewer Guidelines:**
+- Check for proper error handling with Result wrapper
+- Verify no hardcoded API keys or secrets
+- Ensure proper use of Coroutine dispatchers
+- Confirm Clean Architecture principles are followed
+- Validate that all DAOs operations are properly tested

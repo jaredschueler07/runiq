@@ -1,44 +1,43 @@
-# EditorConfig is awesome: https://EditorConfig.org
+# EditorConfig helps maintain consistent coding styles across different editors and IDEs
+# editorconfig.org
 
-# top-most EditorConfig file
 root = true
 
-# All files
 [*]
 charset = utf-8
 end_of_line = lf
+indent_size = 4
+indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# Kotlin files
 [*.{kt,kts}]
-indent_style = space
+# Kotlin specific settings
 indent_size = 4
 max_line_length = 120
-ij_kotlin_allow_trailing_comma = true
-ij_kotlin_allow_trailing_comma_on_call_site = true
+insert_final_newline = true
+ktlint_standard = enabled
+ktlint_experimental = disabled
+ktlint_code_style = android_studio
+ktlint_ignore_back_ticked_identifier = true
 
-# XML files
+# Disable specific ktlint rules if needed
+ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_max-line-length = disabled
+ktlint_standard_package-naming = disabled
+
 [*.xml]
-indent_style = space
+indent_size = 2
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+[*.gradle]
 indent_size = 4
 
-# JSON files
-[*.json]
-indent_style = space
-indent_size = 2
-
-# YAML files
-[*.{yml,yaml}]
-indent_style = space
-indent_size = 2
-
-# Markdown files
-[*.md]
-max_line_length = off
-trim_trailing_whitespace = false
-
-# Gradle files
-[*.gradle.kts]
-indent_style = space
+[*.properties]
 indent_size = 4
