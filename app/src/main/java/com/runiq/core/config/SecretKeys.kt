@@ -18,6 +18,12 @@ object SecretKeys {
     const val SPOTIFY_CLIENT_ID: String = BuildConfig.SPOTIFY_CLIENT_ID
     
     /**
+     * Spotify Client Secret for OAuth flow
+     * Used for: Spotify API token exchange and refresh
+     */
+    const val SPOTIFY_CLIENT_SECRET: String = BuildConfig.SPOTIFY_CLIENT_SECRET
+    
+    /**
      * Eleven Labs API key for AI voice synthesis
      * Used for: Converting coaching text to natural speech
      */
@@ -41,6 +47,7 @@ object SecretKeys {
      */
     fun areAllKeysConfigured(): Boolean {
         return SPOTIFY_CLIENT_ID.isNotBlank() &&
+               SPOTIFY_CLIENT_SECRET.isNotBlank() &&
                ELEVEN_LABS_API_KEY.isNotBlank() &&
                MAPS_API_KEY.isNotBlank() &&
                GEMINI_API_KEY.isNotBlank()
@@ -54,6 +61,7 @@ object SecretKeys {
         val missingKeys = mutableListOf<String>()
         
         if (SPOTIFY_CLIENT_ID.isBlank()) missingKeys.add("SPOTIFY_CLIENT_ID")
+        if (SPOTIFY_CLIENT_SECRET.isBlank()) missingKeys.add("SPOTIFY_CLIENT_SECRET")
         if (ELEVEN_LABS_API_KEY.isBlank()) missingKeys.add("ELEVEN_LABS_API_KEY") 
         if (MAPS_API_KEY.isBlank()) missingKeys.add("MAPS_API_KEY")
         if (GEMINI_API_KEY.isBlank()) missingKeys.add("GEMINI_API_KEY")
