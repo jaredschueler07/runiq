@@ -10,7 +10,10 @@
       "mcp__linear-server__get_team",
       "mcp__linear-server__list_issues",
       "mcp__linear-server__list_issue_statuses",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "mcp__linear-server__get_project"
     ],
     "deny": [],
     "ask": []

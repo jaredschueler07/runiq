@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -8,6 +10,13 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.perf)
+}
+
+// Load local properties for API keys
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
 }
 
 android {
@@ -30,6 +39,12 @@ android {
         // Manifest placeholders
         manifestPlaceholders["redirectHostName"] = "com.runiq"
         manifestPlaceholders["redirectSchemeName"] = "runiq"
+        
+        // API Keys from local.properties
+        buildConfigField("String", "SPOTIFY_CLIENT_ID", "\"${localProperties.getProperty("SPOTIFY_CLIENT_ID", "")}\"")
+        buildConfigField("String", "ELEVEN_LABS_API_KEY", "\"${localProperties.getProperty("ELEVEN_LABS_API_KEY", "")}\"")
+        buildConfigField("String", "MAPS_API_KEY", "\"${localProperties.getProperty("MAPS_API_KEY", "")}\"")
+        buildConfigField("String", "GEMINI_API_KEY", "\"${localProperties.getProperty("GEMINI_API_KEY", "")}\"")
     }
 
     buildTypes {

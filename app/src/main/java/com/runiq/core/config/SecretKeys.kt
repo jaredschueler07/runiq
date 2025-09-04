@@ -30,13 +30,20 @@ object SecretKeys {
     const val MAPS_API_KEY: String = BuildConfig.MAPS_API_KEY
     
     /**
+     * Google Gemini API key for AI coaching
+     * Used for: Generating personalized coaching messages
+     */
+    const val GEMINI_API_KEY: String = BuildConfig.GEMINI_API_KEY
+    
+    /**
      * Validates that all required API keys are present
      * @return true if all keys are configured, false otherwise
      */
     fun areAllKeysConfigured(): Boolean {
         return SPOTIFY_CLIENT_ID.isNotBlank() &&
                ELEVEN_LABS_API_KEY.isNotBlank() &&
-               MAPS_API_KEY.isNotBlank()
+               MAPS_API_KEY.isNotBlank() &&
+               GEMINI_API_KEY.isNotBlank()
     }
     
     /**
@@ -49,6 +56,7 @@ object SecretKeys {
         if (SPOTIFY_CLIENT_ID.isBlank()) missingKeys.add("SPOTIFY_CLIENT_ID")
         if (ELEVEN_LABS_API_KEY.isBlank()) missingKeys.add("ELEVEN_LABS_API_KEY") 
         if (MAPS_API_KEY.isBlank()) missingKeys.add("MAPS_API_KEY")
+        if (GEMINI_API_KEY.isBlank()) missingKeys.add("GEMINI_API_KEY")
         
         return missingKeys
     }
