@@ -13,7 +13,8 @@
       "Bash(git add:*)",
       "Bash(git push:*)",
       "Bash(git checkout:*)",
-      "mcp__linear-server__get_project"
+      "mcp__linear-server__get_project",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
