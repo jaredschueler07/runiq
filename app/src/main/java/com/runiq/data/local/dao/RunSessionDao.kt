@@ -38,6 +38,9 @@ interface RunSessionDao {
     @Query("UPDATE run_sessions SET health_connect_id = :healthConnectId WHERE sessionId = :sessionId")
     suspend fun updateHealthConnectId(sessionId: String, healthConnectId: String)
     
+    @Query("UPDATE run_sessions SET sync_error_message = :errorMessage WHERE sessionId = :sessionId")
+    suspend fun updateSyncError(sessionId: String, errorMessage: String)
+    
     // Delete operations
     @Delete
     suspend fun delete(session: RunSessionEntity)
