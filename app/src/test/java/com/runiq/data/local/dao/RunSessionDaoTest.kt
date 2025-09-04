@@ -1,53 +1,35 @@
 package com.runiq.data.local.dao
 
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import com.runiq.data.local.database.RunIQDatabase
 import com.runiq.data.local.entities.RunSessionEntity
 import com.runiq.domain.model.SyncStatus
 import com.runiq.domain.model.WorkoutType
-import io.mockk.mockk
+import com.runiq.testing.base.BaseDaoTest
+import com.runiq.testing.utils.TestDataFactory
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 /**
- * Unit tests for RunSessionDao
+ * Comprehensive unit tests for RunSessionDao
  */
-@RunWith(RobolectricTestRunner::class)
-class RunSessionDaoTest {
+@ExperimentalCoroutinesApi
+class RunSessionDaoTest : BaseDaoTest() {
     
-    private lateinit var database: RunIQDatabase
     private lateinit var runSessionDao: RunSessionDao
+    private val testUserId = "test-user-123"
     
     @Before
-    fun setup() {
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            RunIQDatabase::class.java
-        ).allowMainThreadQueries().build()
-        
+    fun setupDao() {
         runSessionDao = database.runSessionDao()
-    }
-    
-    @After
-    fun tearDown() {
-        database.close()
     }
     
     @Test
     fun `insert and retrieve run session`() = runTest {
         // Given
-        val session = createTestSession()
+        val session = TestDataFactory.createRunSessionEntity(userId = testUserId)
         
         // When
         val id = runSessionDao.insert(session)
@@ -61,15 +43,31 @@ class RunSessionDaoTest {
     }
     
     @Test
+    fun `insert multiple sessions`() = runTest {
+        // Given
+        val sessions = TestDataFactory.createRunSessionList(count = 5).map {
+            it.copy(userId = testUserId)
+        }
+        
+        // When
+        runSessionDao.insertAll(sessions)
+        val retrieved = runSessionDao.getAllByUser(testUserId).first()
+        
+        // Then
+        assertEquals(5, retrieved.size)
+    }
+    
+    @Test
     fun `get active session returns null when no active sessions`() = runTest {
         // Given
-        val completedSession = createTestSession().copy(
+        val completedSession = TestDataFactory.createRunSessionEntity(
+            userId = testUserId,
             endTime = System.currentTimeMillis()
         )
         runSessionDao.insert(completedSession)
         
         // When
-        val activeSession = runSessionDao.getActiveSession("user123")
+        val activeSession = runSessionDao.getActiveSession(testUserId)
         
         // Then
         assertNull(activeSession)
@@ -78,13 +76,14 @@ class RunSessionDaoTest {
     @Test
     fun `get active session returns current running session`() = runTest {
         // Given
-        val activeSession = createTestSession().copy(
+        val activeSession = TestDataFactory.createRunSessionEntity(
+            userId = testUserId,
             endTime = null
         )
         runSessionDao.insert(activeSession)
         
         // When
-        val retrieved = runSessionDao.getActiveSession("user123")
+        val retrieved = runSessionDao.getActiveSession(testUserId)
         
         // Then
         assertNotNull(retrieved)
@@ -94,7 +93,7 @@ class RunSessionDaoTest {
     @Test
     fun `update sync status changes status correctly`() = runTest {
         // Given
-        val session = createTestSession()
+        val session = TestDataFactory.createRunSessionEntity(userId = testUserId)
         runSessionDao.insert(session)
         
         // When
@@ -111,18 +110,18 @@ class RunSessionDaoTest {
         assertNotNull(updated.lastSyncedAt)
     }
     
-    @Test
+    @Test  
     fun `get unsynced sessions returns pending and failed sessions`() = runTest {
         // Given
-        val pendingSession = createTestSession().copy(
+        val pendingSession = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "pending1",
             syncStatus = SyncStatus.PENDING
         )
-        val failedSession = createTestSession().copy(
+        val failedSession = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "failed1",
             syncStatus = SyncStatus.FAILED
         )
-        val syncedSession = createTestSession().copy(
+        val syncedSession = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "synced1",
             syncStatus = SyncStatus.SYNCED
         )
@@ -141,15 +140,15 @@ class RunSessionDaoTest {
     @Test
     fun `get sessions by workout type filters correctly`() = runTest {
         // Given
-        val easyRun = createTestSession().copy(
+        val easyRun = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "easy1",
             workoutType = WorkoutType.EASY_RUN
         )
-        val tempoRun = createTestSession().copy(
+        val tempoRun = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "tempo1",
             workoutType = WorkoutType.TEMPO_RUN
         )
-        val intervalRun = createTestSession().copy(
+        val intervalRun = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "interval1",
             workoutType = WorkoutType.INTERVAL_TRAINING
         )
@@ -158,7 +157,7 @@ class RunSessionDaoTest {
         
         // When
         val tempoSessions = runSessionDao.getSessionsByWorkoutType(
-            "user123",
+            testUserId,
             WorkoutType.TEMPO_RUN
         ).first()
         
@@ -170,17 +169,17 @@ class RunSessionDaoTest {
     @Test
     fun `calculate total distance sums correctly`() = runTest {
         // Given
-        val session1 = createTestSession().copy(
+        val session1 = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "session1",
             distance = 5000f,
             endTime = System.currentTimeMillis()
         )
-        val session2 = createTestSession().copy(
+        val session2 = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "session2",
             distance = 3000f,
             endTime = System.currentTimeMillis()
         )
-        val incompleteSession = createTestSession().copy(
+        val incompleteSession = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(
             sessionId = "session3",
             distance = 1000f,
             endTime = null
@@ -189,7 +188,7 @@ class RunSessionDaoTest {
         runSessionDao.insertAll(listOf(session1, session2, incompleteSession))
         
         // When
-        val totalDistance = runSessionDao.getTotalDistance("user123")
+        val totalDistance = runSessionDao.getTotalDistance(testUserId)
         
         // Then
         assertEquals(8000f, totalDistance)
@@ -198,7 +197,7 @@ class RunSessionDaoTest {
     @Test
     fun `complete run transaction updates all fields`() = runTest {
         // Given
-        val session = createTestSession().copy(endTime = null)
+        val session = TestDataFactory.createRunSessionEntity(userId = testUserId).copy(endTime = null)
         runSessionDao.insert(session)
         
         // When
@@ -222,16 +221,5 @@ class RunSessionDaoTest {
         assertEquals(6.0f, updated.averagePace)
         assertEquals(500, updated.calories)
         assertEquals(8000, updated.steps)
-    }
-    
-    private fun createTestSession(): RunSessionEntity {
-        return RunSessionEntity(
-            sessionId = "test-session-${System.currentTimeMillis()}",
-            userId = "user123",
-            startTime = System.currentTimeMillis(),
-            workoutType = WorkoutType.EASY_RUN,
-            coachId = "coach123",
-            syncStatus = SyncStatus.PENDING
-        )
     }
 }
