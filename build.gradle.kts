@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
+<<<<<<< HEAD
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
@@ -9,4 +10,11 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.firebase.perf) apply false
+=======
+    id("org.jetbrains.kotlin.kapt") version "2.0.21" apply false
+    id("com.google.dagger.hilt.android") version "2.52" apply false
+    
+    // Add the dependency for the Google services Gradle plugin
+    id("com.google.gms.google-services") version "4.4.3" apply false
+>>>>>>> cursor/RUN-40-setup-ai-agent-testing-foundation-8dda
 }

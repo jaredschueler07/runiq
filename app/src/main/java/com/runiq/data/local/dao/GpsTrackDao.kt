@@ -1,15 +1,28 @@
 package com.runiq.data.local.dao
 
+<<<<<<< HEAD
 import androidx.room.*
 import com.runiq.data.local.entities.GpsTrackPointEntity
 import kotlinx.coroutines.flow.Flow
 
 /**
  * DAO for GPS track points with location tracking and route analysis
+=======
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.runiq.domain.model.GpsTrackPoint
+import kotlinx.coroutines.flow.Flow
+
+/**
+ * Data Access Object for GPS track point operations.
+>>>>>>> cursor/RUN-40-setup-ai-agent-testing-foundation-8dda
  */
 @Dao
 interface GpsTrackDao {
     
+<<<<<<< HEAD
     // Insert operations
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(point: GpsTrackPointEntity): Long
@@ -271,4 +284,26 @@ interface GpsTrackDao {
         minLon: Double,
         maxLon: Double
     ): Int
+=======
+    @Query("SELECT * FROM gps_track_points WHERE sessionId = :sessionId ORDER BY timestamp ASC")
+    fun observeTrackPoints(sessionId: String): Flow<List<GpsTrackPoint>>
+    
+    @Query("SELECT * FROM gps_track_points WHERE sessionId = :sessionId ORDER BY timestamp ASC")
+    suspend fun getTrackPoints(sessionId: String): List<GpsTrackPoint>
+    
+    @Query("SELECT * FROM gps_track_points WHERE sessionId = :sessionId ORDER BY timestamp DESC LIMIT 1")
+    suspend fun getLastTrackPoint(sessionId: String): GpsTrackPoint?
+    
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(trackPoint: GpsTrackPoint): Long
+    
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(trackPoints: List<GpsTrackPoint>): List<Long>
+    
+    @Query("DELETE FROM gps_track_points WHERE sessionId = :sessionId")
+    suspend fun deleteBySessionId(sessionId: String): Int
+    
+    @Query("SELECT COUNT(*) FROM gps_track_points WHERE sessionId = :sessionId")
+    suspend fun getPointCount(sessionId: String): Int
+>>>>>>> cursor/RUN-40-setup-ai-agent-testing-foundation-8dda
 }
