@@ -21,7 +21,8 @@
       "Read(/C:\\Users\\jared\\AndroidStudioProjects\\RunIQ\\app/**)",
       "Read(/C:\\Users\\jared\\AndroidStudioProjects\\RunIQ\\gradle/**)",
       "Read(/C:\\Users\\jared\\AndroidStudioProjects\\RunIQ\\app\\src\\main\\java\\com\\runiq\\core\\config/**)",
-      "Read(/C:\\Users\\jared\\AndroidStudioProjects\\RunIQ/**)"
+      "Read(/C:\\Users\\jared\\AndroidStudioProjects\\RunIQ/**)",
+      "Bash(git fetch:*)"
     ],
     "deny": [],
     "ask": []
