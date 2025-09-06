@@ -1,0 +1,29 @@
+# Code owners for RunIQ
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owners
+* @jaredschueler07
+
+# Architecture and core components
+/app/src/main/java/com/runiq/domain/ @jaredschueler07
+/app/src/main/java/com/runiq/data/ @jaredschueler07
+/app/src/main/java/com/runiq/di/ @jaredschueler07
+
+# UI and presentation layer
+/app/src/main/java/com/runiq/presentation/ @jaredschueler07
+/app/src/main/res/ @jaredschueler07
+
+# Configuration files
+*.gradle.kts @jaredschueler07
+gradle.properties @jaredschueler07
+/gradle/ @jaredschueler07
+
+# CI/CD and project configuration
+/.github/ @jaredschueler07
+.gitignore @jaredschueler07
+README.md @jaredschueler07
+CONTRIBUTING.md @jaredschueler07
+
+# Security-sensitive files
+/app/proguard-rules.pro @jaredschueler07
+/app/src/main/AndroidManifest.xml @jaredschueler07

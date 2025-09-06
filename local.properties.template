@@ -1,0 +1,15 @@
+# Template for local.properties
+# Copy this file to local.properties and fill in your actual API keys
+# local.properties is gitignored for security
+
+# Spotify Integration
+SPOTIFY_CLIENT_ID=your_spotify_client_id_here
+
+# Eleven Labs TTS Integration  
+ELEVEN_LABS_API_KEY=your_eleven_labs_api_key_here
+
+# Google Maps Integration
+MAPS_API_KEY=your_google_maps_api_key_here
+
+# Android SDK path (automatically set by Android Studio)
+sdk.dir=/path/to/your/android/sdk
