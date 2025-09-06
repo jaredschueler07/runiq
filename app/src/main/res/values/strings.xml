@@ -1,3 +1,105 @@
 <resources>
     <string name="app_name">RunIQ</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_profile">Profile</string>
+    
+    <!-- Content Descriptions -->
+    <string name="cd_home_screen">Home screen</string>
+    <string name="cd_run_history">Run history</string>
+    <string name="cd_profile_settings">Profile and settings</string>
+    <string name="cd_start_run">Start run</string>
+    <string name="cd_pause_run">Pause run</string>
+    <string name="cd_resume_run">Resume run</string>
+    <string name="cd_stop_run">Stop run</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_settings">Settings</string>
+    <string name="cd_map_view">Map view</string>
+    <string name="cd_share_run">Share run</string>
+    
+    <!-- Common Actions -->
+    <string name="action_get_started">Get Started</string>
+    <string name="action_skip">Skip for Now</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_connect">Connect</string>
+    <string name="action_disconnect">Disconnect</string>
+    
+    <!-- Screen Titles -->
+    <string name="title_active_run">Active Run</string>
+    <string name="title_run_history">Run History</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_coach_selection">Choose Your Coach</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_music_settings">Music Settings</string>
+    <string name="title_permissions">App Permissions</string>
+    
+    <!-- Onboarding -->
+    <string name="onboarding_welcome">Welcome to RunIQ</string>
+    <string name="onboarding_subtitle">Your AI-powered running companion</string>
+    
+    <!-- Permissions -->
+    <string name="permission_location_title">Location Access</string>
+    <string name="permission_location_desc">Track your runs with GPS and provide accurate distance, pace, and route mapping.</string>
+    <string name="permission_health_title">Health Connect</string>
+    <string name="permission_health_desc">Sync with your fitness ecosystem and access heart rate data for comprehensive tracking.</string>
+    <string name="permission_notifications_title">Notifications</string>
+    <string name="permission_notifications_desc">Receive coaching tips, run reminders, and achievement notifications.</string>
+    
+    <!-- Metrics -->
+    <string name="metric_pace">Pace</string>
+    <string name="metric_distance">Distance</string>
+    <string name="metric_time">Time</string>
+    <string name="metric_heart_rate">Heart Rate</string>
+    <string name="metric_calories">Calories</string>
+    
+    <!-- Units -->
+    <string name="unit_km">km</string>
+    <string name="unit_pace_km">/km</string>
+    <string name="unit_bpm">bpm</string>
+    <string name="unit_cal">cal</string>
+    <string name="unit_min">min</string>
+    <string name="unit_percent">%</string>
+    
+    <!-- Status Messages -->
+    <string name="status_running">Running • Tap to pause</string>
+    <string name="status_paused">Paused • Tap to resume</string>
+    <string name="status_ready">Ready to start</string>
+    <string name="status_tap_to_start">Tap to start your run</string>
+    
+    <!-- Empty States -->
+    <string name="empty_no_runs">No runs yet</string>
+    <string name="empty_no_runs_subtitle">Start your first run to see your progress here</string>
+    <string name="empty_no_data">No data available</string>
+    
+    <!-- Time Periods -->
+    <string name="period_this_week">This Week</string>
+    <string name="period_this_month">This Month</string>
+    <string name="period_recent_activity">Recent Activity</string>
+    <string name="period_all_runs">All Runs</string>
+    
+    <!-- Coach Personalities -->
+    <string name="coach_motivational">Motivational &amp; Energetic</string>
+    <string name="coach_supportive">Supportive &amp; Mindful</string>
+    <string name="coach_analytical">Analytical &amp; Strategic</string>
+    <string name="coach_balanced">Adaptive &amp; Balanced</string>
+    
+    <!-- Music -->
+    <string name="music_spotify">Spotify</string>
+    <string name="music_connected">Connected</string>
+    <string name="music_not_connected">Not connected</string>
+    <string name="music_bpm_matching">BPM Matching</string>
+    <string name="music_volume">Music Volume</string>
+    <string name="music_coach_volume">Coach Voice Volume</string>
+    
+    <!-- Settings -->
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_voice_coaching">Voice Coaching</string>
+    <string name="settings_auto_sync">Auto Sync</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_data_export">Data Export</string>
+    <string name="settings_app_version">App Version</string>
+    <string name="settings_terms">Terms of Service</string>
 </resources>

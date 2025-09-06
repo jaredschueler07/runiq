@@ -14,17 +14,30 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.runiq.ui.theme.RunIQShapes
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = RunIQDarkPrimary,
+    onPrimary = RunIQDarkOnPrimary,
+    secondary = RunIQDarkSecondary,
+    onSecondary = RunIQDarkOnSecondary,
+    background = RunIQDarkBackground,
+    onBackground = RunIQDarkOnBackground,
+    surface = RunIQDarkSurface,
+    onSurface = RunIQDarkOnSurface,
+    error = RunIQError
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = RunIQPrimary,
+    onPrimary = RunIQOnPrimary,
+    secondary = RunIQSecondary,
+    onSecondary = RunIQOnSecondary,
+    background = RunIQBackground,
+    onBackground = RunIQOnBackground,
+    surface = RunIQSurface,
+    onSurface = RunIQOnSurface,
+    error = RunIQError
 )
 
 @Composable
@@ -55,6 +68,7 @@ fun RunIQTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = RunIQShapes,
         content = content
     )
 }
