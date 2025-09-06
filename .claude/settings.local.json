@@ -43,7 +43,10 @@
       "Bash(export JAVA_HOME=\"C:\\Program Files\\Android\\Android Studio\\jbr\")",
       "Bash(dir:*)",
       "Bash(set JAVA_HOME=C:Program FilesAndroidAndroid Studiojbr)",
-      "Bash(\"C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\java\" -version)"
+      "Bash(\"C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\java\" -version)",
+      "mcp__linear-server__list_teams",
+      "Bash(timeout 120 ./gradlew assembleDebug --quiet --no-daemon)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

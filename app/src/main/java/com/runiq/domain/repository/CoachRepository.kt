@@ -1,5 +1,6 @@
 package com.runiq.domain.repository
 
+import com.runiq.core.util.Result
 import com.runiq.data.local.entities.CoachingStyle
 import com.runiq.data.local.entities.ExperienceLevel
 import com.runiq.data.local.entities.MotivationStyle

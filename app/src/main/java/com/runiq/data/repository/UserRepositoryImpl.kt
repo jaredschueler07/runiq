@@ -13,6 +13,17 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
+ * Extension function to map Result<T> to Result<R>
+ */
+private inline fun <T, R> Result<T>.map(transform: (T) -> R): Result<R> {
+    return when (this) {
+        is Result.Success -> Result.Success(transform(data))
+        is Result.Error -> Result.Error(exception)
+        is Result.Loading -> Result.Loading
+    }
+}
+
+/**
  * Implementation of UserRepository
  * Manages user preferences and profile data
  */

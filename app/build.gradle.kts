@@ -176,6 +176,8 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.perf)
     
+    
+    
     // Network
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.moshi)
@@ -196,6 +198,9 @@ dependencies {
     
     // AI Services
     implementation(libs.google.generativeai)
+    
+    // Security
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
     
     // Logging
     implementation(libs.timber)

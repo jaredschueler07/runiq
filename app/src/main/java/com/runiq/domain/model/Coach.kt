@@ -43,7 +43,11 @@ data class Coach(
         @Json(name = "speed") SPEED,
         @Json(name = "strength") STRENGTH,
         @Json(name = "beginner") BEGINNER,
-        @Json(name = "advanced") ADVANCED
+        @Json(name = "intermediate") INTERMEDIATE,
+        @Json(name = "advanced") ADVANCED,
+        @Json(name = "marathon") MARATHON,
+        @Json(name = "sprint") SPRINT,
+        @Json(name = "recovery") RECOVERY
     }
     
     @JsonClass(generateAdapter = true)

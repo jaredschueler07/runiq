@@ -1,14 +1,12 @@
 package com.runiq.di
 
+import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
+import dagger.hilt.android.qualifiers.ApplicationContext
 // TODO: Add back when remote services are implemented
 // import com.runiq.data.remote.service.FirestoreService
 // import com.runiq.data.remote.service.FirestoreServiceImpl
@@ -28,17 +26,17 @@ object FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
-        return Firebase.auth
+        return FirebaseAuth.getInstance()
     }
     
     @Provides
     @Singleton
     fun provideFirebaseFirestore(): FirebaseFirestore {
-        return Firebase.firestore.apply {
+        return FirebaseFirestore.getInstance().apply {
             // Configure Firestore settings
-            firestoreSettings = firestoreSettings.toBuilder()
+            firestoreSettings = FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
-                .setCacheSizeBytes(FirebaseFirestore.CACHE_SIZE_UNLIMITED)
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
                 .build()
         }
     }
@@ -46,13 +44,13 @@ object FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseStorage(): FirebaseStorage {
-        return Firebase.storage
+        return FirebaseStorage.getInstance()
     }
     
     @Provides
     @Singleton
-    fun provideFirebaseAnalytics(): FirebaseAnalytics {
-        return Firebase.analytics
+    fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics {
+        return FirebaseAnalytics.getInstance(context)
     }
 }
 

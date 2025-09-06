@@ -1,6 +1,7 @@
 package com.runiq.domain.usecase
 
 import com.runiq.core.util.Result
+import com.runiq.data.mapper.toDomain
 import com.runiq.domain.repository.HealthRepository
 import com.runiq.domain.repository.RunRepository
 import com.runiq.domain.model.SyncStatus
@@ -62,7 +63,7 @@ class SyncHealthDataUseCase @Inject constructor(
                             distance = session.distance,
                             calories = session.calories,
                             heartRateData = emptyList(),
-                            gpsTrack = gpsTrackResult.data
+                            gpsTrack = gpsTrackResult.data.toDomain()
                         )
 
                         if (writeResult is Result.Success) {
