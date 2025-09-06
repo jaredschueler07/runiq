@@ -3,7 +3,7 @@
 
 version: 2
 updates:
-  # Enable version updates for Gradle
+  # Enable version updates for Gradle dependencies
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
@@ -22,7 +22,7 @@ updates:
     labels:
       - "dependencies"
       - "automated"
-    
+
     # Group related updates
     groups:
       android:
@@ -42,7 +42,7 @@ updates:
           - "*espresso*"
           - "*mockk*"
           - "*robolectric*"
-      
+
     # Ignore specific packages that require manual updates
     ignore:
       - dependency-name: "com.android.tools.build:gradle"
@@ -57,6 +57,7 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "09:00"
+    open-pull-requests-limit: 3
     reviewers:
       - "jaredschueler07"
     assignees:

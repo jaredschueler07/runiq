@@ -1,0 +1,25 @@
+# .github/rulesets/main-protection.yml
+name: "Main Branch Protection"
+target: "branch"
+enforcement: "active"
+conditions:
+  ref_name:
+    include: ["refs/heads/main", "refs/heads/master"]
+rules:
+  - type: "required_status_checks"
+    parameters:
+      strict_before_merge: true
+      required_status_checks:
+        - "build-and-test"
+        - "lint-check"
+        - "security-scan"
+  - type: "require_pull_request_reviews"
+    parameters:
+      required_approving_review_count: 1
+      dismiss_stale_reviews: true
+      require_code_owner_reviews: false
+  - type: "restrict_pushes"
+    parameters:
+      restrict_pushes: true
+  - type: "require_linear_history"
+  - type: "require_conversation_resolution"

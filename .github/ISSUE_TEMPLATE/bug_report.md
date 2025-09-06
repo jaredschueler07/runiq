@@ -2,7 +2,7 @@
 name: Bug Report
 about: Create a report to help us improve RunIQ
 title: '[BUG] '
-labels: bug
+labels: ['bug', 'triage']
 assignees: ''
 ---
 
@@ -48,3 +48,6 @@ Paste any relevant log output here
 
 ## 📝 Additional Context
 Add any other context about the problem here.
+
+## 🔗 Related Linear Issue
+- Linear Issue: [RUN-XXX](link to Linear issue)
