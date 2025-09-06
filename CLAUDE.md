@@ -143,9 +143,19 @@ Configuration files:
 
 - **Application ID**: `com.example.runiq`
 - **Min SDK**: 30, **Target SDK**: 36
-- **Java Version**: 11
+- **Java Version**: 21 (Android Studio JBR)
 - **Kotlin Version**: 2.0.21
 - **AGP Version**: 8.12.2
+
+### Java Setup
+The project requires Java 21. Set `JAVA_HOME` to Android Studio's bundled JBR:
+```bash
+# Windows
+set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr
+
+# PowerShell
+$env:JAVA_HOME="C:\Program Files\Android\Android Studio\jbr"
+```
 
 ## Performance Considerations
 
@@ -187,3 +197,5 @@ Always wrap repository operations in try-catch blocks with proper logging using 
 *   **2025-09-03:** Created `GEMINI.md` with initial interaction guidelines. The primary rule is to consult `CLAUDE.md` as the source of truth and to maintain this log for all significant actions.
 *   **2025-09-03:** Saved the Linear API key to `local.properties` and updated `GEMINI.md` with instructions for using the Linear API.
 *   **2025-09-03:** Analyzed the UI implementation of the RunIQ project in relation to the guidance provided at `https://21st.dev/`. The analysis includes a comparison of the current UI implementation with the Linear epic "User Interface & Experience" and the principles of `21st.dev`. Recommendations were provided to clean up theme files, define a design system, and focus on "craft" and "taste" in the UI development.
+*   **2025-09-06:** Fixed an "Anonymous object cannot extend a sealed class" error in `ErrorMapper.kt`. Created a new `UnknownException` class that extends `RunIQException` and updated the `mapToRunIQException` function to use this new class for handling unknown error types, as instructed by the user.
+*   **2025-01-06:** Migrated project from Java 17 to Java 21. Fixed major compilation errors including duplicate enum declarations, missing imports, deprecated API usage, and missing model references. Updated build configuration and resolved build system issues. Project now builds successfully with Java 21.

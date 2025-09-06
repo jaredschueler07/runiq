@@ -110,7 +110,7 @@ interface CoachTextLineDao {
         AND category = :category 
         AND priority >= :minPriority 
         AND is_active = 1 
-        ORDER BY priority DESC, effectiveness_score DESC NULLS LAST
+        ORDER BY priority DESC, CASE WHEN effectiveness_score IS NULL THEN 1 ELSE 0 END, effectiveness_score DESC
     """)
     suspend fun getHighPriorityLines(
         coachId: String, 

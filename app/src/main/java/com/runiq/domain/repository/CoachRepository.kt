@@ -1,5 +1,8 @@
 package com.runiq.domain.repository
 
+import com.runiq.data.local.entities.CoachingStyle
+import com.runiq.data.local.entities.ExperienceLevel
+import com.runiq.data.local.entities.MotivationStyle
 import com.runiq.domain.model.*
 import kotlinx.coroutines.flow.Flow
 

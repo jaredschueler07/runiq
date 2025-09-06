@@ -5,7 +5,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -72,7 +73,7 @@ fun Modifier.clickableWithRipple(
         onClickLabel = onClickLabel,
         role = role,
         interactionSource = remember { MutableInteractionSource() },
-        indication = rememberRipple(),
+        indication = ripple(),
         onClick = onClick
     )
 }
@@ -130,12 +131,12 @@ fun Modifier.paddingIf(
     bottom: Dp = 0.dp
 ): Modifier = applyIf(condition) {
     when {
-        all > 0.dp -> androidx.compose.foundation.layout.padding(all)
-        horizontal > 0.dp || vertical > 0.dp -> androidx.compose.foundation.layout.padding(
+        all > 0.dp -> padding(all)
+        horizontal > 0.dp || vertical > 0.dp -> padding(
             horizontal = horizontal,
             vertical = vertical
         )
-        else -> androidx.compose.foundation.layout.padding(
+        else -> padding(
             start = start,
             top = top,
             end = end,

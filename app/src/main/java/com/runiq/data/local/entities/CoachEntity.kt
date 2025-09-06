@@ -12,8 +12,8 @@ import com.runiq.domain.model.VoiceCharacteristics
     tableName = "coaches",
     indices = [
         Index(value = ["name"], unique = true),
-        Index(value = ["isActive"]),
-        Index(value = ["coachingStyle"])
+        Index(value = ["is_active"]),
+        Index(value = ["coaching_style"])
     ]
 )
 data class CoachEntity(
@@ -75,28 +75,3 @@ data class CoachEntity(
     val totalRatings: Int = 0
 )
 
-@Keep
-enum class CoachingStyle {
-    ENCOURAGING,    // Positive, supportive
-    CHALLENGING,    // Push harder, competitive
-    ANALYTICAL,     // Data-focused, technical
-    MINDFUL,        // Focus on form and breathing
-    HUMOROUS,       // Light-hearted, fun
-    PROFESSIONAL    // Serious, structured
-}
-
-@Keep
-enum class ExperienceLevel {
-    BEGINNER,       // New to running
-    INTERMEDIATE,   // Regular runner
-    ADVANCED,       // Experienced athlete
-    ELITE          // Professional level
-}
-
-@Keep
-enum class MotivationStyle {
-    GENTLE,         // Soft encouragement
-    BALANCED,       // Mix of push and support
-    INTENSE,        // High energy, demanding
-    TACTICAL        // Strategy and technique focused
-}

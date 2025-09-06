@@ -10,15 +10,15 @@ import androidx.room.*
 @Entity(
     tableName = "gps_track_points",
     indices = [
-        Index(value = ["sessionId", "timestamp"]),
-        Index(value = ["sessionId", "sequenceNumber"]),
+        Index(value = ["session_id", "timestamp"]),
+        Index(value = ["session_id", "sequence_number"]),
         Index(value = ["timestamp"])
     ],
     foreignKeys = [
         ForeignKey(
             entity = RunSessionEntity::class,
             parentColumns = ["sessionId"],
-            childColumns = ["sessionId"],
+            childColumns = ["session_id"],
             onDelete = ForeignKey.CASCADE
         )
     ]

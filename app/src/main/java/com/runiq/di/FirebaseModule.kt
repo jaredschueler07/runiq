@@ -9,10 +9,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import com.runiq.data.remote.service.FirestoreService
-import com.runiq.data.remote.service.FirestoreServiceImpl
-import com.runiq.data.remote.service.FirebaseAnalyticsService
-import com.runiq.data.remote.service.FirebaseAnalyticsServiceImpl
+// TODO: Add back when remote services are implemented
+// import com.runiq.data.remote.service.FirestoreService
+// import com.runiq.data.remote.service.FirestoreServiceImpl
+// import com.runiq.data.remote.service.FirebaseAnalyticsService
+// import com.runiq.data.remote.service.FirebaseAnalyticsServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -55,6 +56,8 @@ object FirebaseModule {
     }
 }
 
+// TODO: Add back when remote services are implemented
+/*
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class FirebaseBindsModule {
@@ -71,3 +74,4 @@ abstract class FirebaseBindsModule {
         firebaseAnalyticsServiceImpl: FirebaseAnalyticsServiceImpl
     ): FirebaseAnalyticsService
 }
+*/

@@ -11,16 +11,16 @@ import com.runiq.domain.model.SyncStatus
 @Entity(
     tableName = "health_metric_cache",
     indices = [
-        Index(value = ["sessionId", "metricType"]),
+        Index(value = ["session_id", "metric_type"]),
         Index(value = ["timestamp"]),
-        Index(value = ["source", "syncStatus"]),
-        Index(value = ["metricType", "timestamp"])
+        Index(value = ["source", "sync_status"]),
+        Index(value = ["metric_type", "timestamp"])
     ],
     foreignKeys = [
         ForeignKey(
             entity = RunSessionEntity::class,
             parentColumns = ["sessionId"],
-            childColumns = ["sessionId"],
+            childColumns = ["session_id"],
             onDelete = ForeignKey.CASCADE
         )
     ]

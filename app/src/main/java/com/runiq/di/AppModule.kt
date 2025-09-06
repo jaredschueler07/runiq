@@ -4,12 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.runiq.domain.manager.AudioManager
-import com.runiq.domain.manager.NotificationManager
-import com.runiq.domain.manager.PermissionManager
-import com.runiq.services.audio.AudioManagerImpl
-import com.runiq.services.notification.NotificationManagerImpl
-import com.runiq.services.permission.PermissionManagerImpl
+// TODO: Add back when manager interfaces and implementations are created
+// import com.runiq.domain.manager.AudioManager
+// import com.runiq.domain.manager.NotificationManager
+// import com.runiq.domain.manager.PermissionManager
+// import com.runiq.services.audio.AudioManagerImpl
+// import com.runiq.services.notification.NotificationManagerImpl
+// import com.runiq.services.permission.PermissionManagerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -83,6 +84,8 @@ object AppModule {
 @InstallIn(SingletonComponent::class)
 abstract class AppBindsModule {
     
+    // TODO: Add back when manager interfaces and implementations are created
+    /*
     @Binds
     @Singleton
     abstract fun bindAudioManager(
@@ -100,4 +103,5 @@ abstract class AppBindsModule {
     abstract fun bindPermissionManager(
         permissionManagerImpl: PermissionManagerImpl
     ): PermissionManager
+    */
 }

@@ -114,3 +114,23 @@ abstract class FlowUseCaseNoParams<out R>(
      */
     protected abstract fun execute(): Flow<Result<R>>
 }
+
+/**
+ * Transform and map data with error handling
+ */
+suspend fun <T, R> Result<T>.mapData(
+    transform: suspend (T) -> R
+): Result<R> {
+    return when (this) {
+        is Result.Success -> {
+            try {
+                Result.Success(transform(data))
+            } catch (e: Exception) {
+                Timber.e(e, "Data transformation error")
+                Result.Error(e)
+            }
+        }
+        is Result.Error -> Result.Error(exception)
+        is Result.Loading -> Result.Loading
+    }
+}

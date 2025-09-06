@@ -1,7 +1,7 @@
 package com.runiq.data.repository
 
 import com.runiq.core.util.Result
-import com.runiq.data.local.dao.HealthMetricCacheDao
+import com.runiq.data.local.dao.HealthMetricDao
 import com.runiq.data.local.entities.HealthMetricCache
 import com.runiq.data.local.entities.GpsTrackPoint
 import com.runiq.domain.repository.HealthRepository
@@ -20,7 +20,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class HealthRepositoryImpl @Inject constructor(
-    private val healthMetricCacheDao: HealthMetricCacheDao
+    private val healthMetricDao: HealthMetricDao
     // TODO: Add HealthConnectManager when implemented
 ) : BaseRepository(), HealthRepository {
 

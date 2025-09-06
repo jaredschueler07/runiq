@@ -2,6 +2,9 @@ package com.runiq.di
 
 import android.content.Context
 import androidx.room.Room
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.runiq.data.local.converters.Converters
 import com.runiq.data.local.database.RunIQDatabase
 import com.runiq.data.local.dao.RunSessionDao
 import com.runiq.data.local.dao.GpsTrackDao
@@ -17,15 +20,25 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-    
+
     @Provides
     @Singleton
-    fun provideRunIQDatabase(@ApplicationContext context: Context): RunIQDatabase {
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRunIQDatabase(@ApplicationContext context: Context, moshi: Moshi): RunIQDatabase {
+        val converters = Converters(moshi) // Create an instance of our converters
         return Room.databaseBuilder(
             context.applicationContext,
             RunIQDatabase::class.java,
             "runiq_database"
         )
+        .addTypeConverter(converters) // Provide the converter instance to Room
         .fallbackToDestructiveMigration() // For development - remove in production
         .build()
     }

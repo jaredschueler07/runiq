@@ -229,7 +229,7 @@ interface HealthMetricDao {
         SELECT * FROM health_metric_cache 
         WHERE session_id = :sessionId 
         AND metric_type = :metricType 
-        ORDER BY accuracy DESC NULLS LAST, timestamp ASC
+        ORDER BY CASE WHEN accuracy IS NULL THEN 1 ELSE 0 END, accuracy DESC, timestamp ASC
     """)
     suspend fun getMetricsByAccuracy(
         sessionId: String,
@@ -364,11 +364,14 @@ interface HealthMetricDao {
 
 // Data classes for complex query results
 data class ValueRange(
+    @ColumnInfo(name = "min_value")
     val minValue: Double,
+    @ColumnInfo(name = "max_value")
     val maxValue: Double
 )
 
 data class MetricTypeCount(
+    @ColumnInfo(name = "metric_type")
     val metricType: HealthMetricType,
     val count: Int
 )

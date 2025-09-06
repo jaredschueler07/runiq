@@ -14,11 +14,11 @@ import java.util.UUID
 @Entity(
     tableName = "run_sessions",
     indices = [
-        Index(value = ["userId", "startTime"]),
-        Index(value = ["healthConnectId"], unique = true),
-        Index(value = ["syncStatus"]),
-        Index(value = ["workoutType"]),
-        Index(value = ["endTime"])
+        Index(value = ["user_id", "start_time"]),
+        Index(value = ["health_connect_id"], unique = true),
+        Index(value = ["sync_status"]),
+        Index(value = ["workout_type"]),
+        Index(value = ["end_time"])
     ]
 )
 data class RunSessionEntity(

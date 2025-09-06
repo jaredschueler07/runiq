@@ -226,6 +226,7 @@ interface CoachDao {
 
 // Data classes for complex query results
 data class CoachingStyleCount(
+    @ColumnInfo(name = "coaching_style")
     val coachingStyle: CoachingStyle,
     val count: Int
 )

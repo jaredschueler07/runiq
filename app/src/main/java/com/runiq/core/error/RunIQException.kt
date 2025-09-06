@@ -201,3 +201,11 @@ sealed class ValidationException(
         actual: Number
     ) : ValidationException("Field '$field' value $actual is out of range [$min, $max]", field)
 }
+
+/**
+ * A generic exception for unknown errors that wraps the original cause.
+ */
+data class UnknownException(
+    override val message: String,
+    override val cause: Throwable?
+) : RunIQException(message, cause)

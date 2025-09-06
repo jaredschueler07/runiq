@@ -2,8 +2,9 @@ package com.runiq.di
 
 import android.content.Context
 import androidx.health.connect.client.HealthConnectClient
-import com.runiq.domain.manager.HealthConnectManager
-import com.runiq.services.health.HealthConnectManagerImpl
+// TODO: Add back when health services are implemented
+// import com.runiq.domain.manager.HealthConnectManager
+// import com.runiq.services.health.HealthConnectManagerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,6 +26,8 @@ object HealthModule {
     }
 }
 
+// TODO: Add back when health services are implemented
+/*
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class HealthBindsModule {
@@ -35,3 +38,4 @@ abstract class HealthBindsModule {
         healthConnectManagerImpl: HealthConnectManagerImpl
     ): HealthConnectManager
 }
+*/

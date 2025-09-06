@@ -30,7 +30,7 @@ enum class MotivationStyle {
     DATA_DRIVEN,
     SOCIAL_COMPARISON,
     PERSONAL_BEST,
-    MIXED
+    BALANCED
 }
 
 enum class MessagePriority {

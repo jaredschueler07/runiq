@@ -3,10 +3,11 @@ package com.runiq.di
 import android.content.Context
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.runiq.domain.manager.LocationManager
-import com.runiq.domain.manager.GpsTracker
-import com.runiq.services.location.LocationManagerImpl
-import com.runiq.services.location.GpsTrackerImpl
+// TODO: Add back when location services are implemented
+// import com.runiq.domain.manager.LocationManager
+// import com.runiq.domain.manager.GpsTracker
+// import com.runiq.services.location.LocationManagerImpl
+// import com.runiq.services.location.GpsTrackerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -28,6 +29,8 @@ object LocationModule {
     }
 }
 
+// TODO: Add back when location services are implemented
+/*
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class LocationBindsModule {
@@ -44,3 +47,4 @@ abstract class LocationBindsModule {
         gpsTrackerImpl: GpsTrackerImpl
     ): GpsTracker
 }
+*/

@@ -77,13 +77,13 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
         isCoreLibraryDesugaringEnabled = true
     }
     
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
         
         freeCompilerArgs += listOf(
             "-opt-in=kotlin.RequiresOptIn",
@@ -117,6 +117,10 @@ android {
     }
 }
 
+kotlin {
+    jvmToolchain(21)
+}
+
 dependencies {
     // Core Android
     implementation(libs.androidx.core.ktx)
@@ -124,6 +128,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.datastore.preferences)
     
     // Jetpack Compose BOM
     implementation(platform(libs.androidx.compose.bom))

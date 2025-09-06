@@ -4,6 +4,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import kotlin.math.pow
 
 /**
  * Maps various exceptions to user-friendly error messages and RunIQ-specific exceptions
@@ -98,7 +99,11 @@ object ErrorMapper {
             
             is RunIQException -> throwable
             
-            else -> object : RunIQException(throwable.message ?: "Unknown error", throwable) {}
+            // FIX: Replace the anonymous object with the new UnknownException class
+            else -> UnknownException(
+                message = throwable.message ?: "An unknown error occurred",
+                cause = throwable
+            )
         }
     }
 
@@ -137,7 +142,7 @@ object ErrorMapper {
     fun isRetryable(throwable: Throwable): Boolean {
         return when (throwable) {
             is NetworkException.TimeoutException,
-            is NetworkException.NoInternetConnection,
+            is NetworkException.NoInternetConnection -> true
             is NetworkException.ServerError -> throwable.statusCode in 500..599
             is IOException,
             is SocketTimeoutException -> true
@@ -158,7 +163,7 @@ object ErrorMapper {
         }
         
         // Exponential backoff with jitter
-        val exponentialDelay = baseDelay * kotlin.math.pow(2.0, attempt.toDouble()).toLong()
+        val exponentialDelay = baseDelay * 2.0.pow(attempt).toLong()
         val jitter = (Math.random() * 1000).toLong()
         
         return (exponentialDelay + jitter).coerceAtMost(30000L) // Max 30 seconds

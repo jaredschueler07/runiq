@@ -1,7 +1,8 @@
 package com.runiq.domain.repository
 
 import com.runiq.core.util.Result
-import com.runiq.data.local.entities.HealthMetricCache
+import com.runiq.data.local.entities.HealthMetricCacheEntity
+import com.runiq.domain.model.GpsTrackPoint
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -34,7 +35,7 @@ interface HealthRepository {
         distance: Float,
         calories: Int,
         heartRateData: List<HeartRatePoint> = emptyList(),
-        gpsTrack: List<com.runiq.data.local.entities.GpsTrackPoint> = emptyList()
+        gpsTrack: List<GpsTrackPoint> = emptyList()
     ): Result<String>
 
     /**
@@ -83,7 +84,7 @@ interface HealthRepository {
     fun observeHealthMetrics(
         userId: String,
         metricType: String
-    ): Flow<List<HealthMetricCache>>
+    ): Flow<List<HealthMetricCacheEntity>>
 
     /**
      * Get health metrics for date range
@@ -93,7 +94,7 @@ interface HealthRepository {
         metricType: String,
         startDate: String,
         endDate: String
-    ): Result<List<HealthMetricCache>>
+    ): Result<List<HealthMetricCacheEntity>>
 
     /**
      * Cache health metric

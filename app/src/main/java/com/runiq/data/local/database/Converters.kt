@@ -2,6 +2,7 @@ package com.runiq.data.local.database
 
 import androidx.room.TypeConverter
 import com.runiq.domain.model.CoachingMessage
+import com.runiq.domain.model.RunContext
 import com.runiq.domain.model.RunSession
 import com.runiq.domain.model.WorkoutType
 import com.squareup.moshi.JsonAdapter
@@ -23,8 +24,8 @@ class Converters {
         Types.newParameterizedType(List::class.java, CoachingMessage::class.java)
     )
     
-    private val runContextAdapter: JsonAdapter<CoachingMessage.RunContext> = moshi.adapter(
-        CoachingMessage.RunContext::class.java
+    private val runContextAdapter: JsonAdapter<RunContext> = moshi.adapter(
+        RunContext::class.java
     )
     
     @TypeConverter
@@ -58,12 +59,12 @@ class Converters {
     }
     
     @TypeConverter
-    fun fromRunContext(runContext: CoachingMessage.RunContext?): String? {
+    fun fromRunContext(runContext: RunContext?): String? {
         return runContext?.let { runContextAdapter.toJson(it) }
     }
     
     @TypeConverter
-    fun toRunContext(runContext: String?): CoachingMessage.RunContext? {
+    fun toRunContext(runContext: String?): RunContext? {
         return runContext?.let { runContextAdapter.fromJson(it) }
     }
 }

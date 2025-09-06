@@ -1,17 +1,28 @@
 package com.runiq.data.local.converters
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.runiq.data.local.entities.*
-import com.runiq.domain.model.*
-import java.lang.reflect.Type
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.runiq.data.local.entities.CoachingStyle
+import com.runiq.data.local.entities.ExperienceLevel
+import com.runiq.data.local.entities.MotivationStyle
+import com.runiq.data.local.entities.EmotionalTone
+import com.runiq.domain.model.CoachingMessage
+import com.runiq.domain.model.VoiceCharacteristics
+import com.runiq.domain.model.WorkoutType
+import com.runiq.domain.model.SyncStatus
+import com.runiq.domain.model.TextCategory
 
 /**
  * Type converters for Room database to handle complex data types
+ * This class is marked with @ProvidedTypeConverter, meaning we will provide an instance
+ * of it to the Room database builder. This helps resolve KSP issues with complex types
+ * by breaking the direct dependency chain during code generation.
  */
-class Converters {
-    private val gson = Gson()
+@ProvidedTypeConverter
+class Converters(private val moshi: Moshi) {
     
     // WorkoutType converters
     @TypeConverter
@@ -68,126 +79,77 @@ class Converters {
         return MotivationStyle.valueOf(motivationStyle)
     }
     
-    // VoiceCharacteristics converter
+    // TextCategory converters
     @TypeConverter
-    fun fromVoiceCharacteristics(voice: VoiceCharacteristics?): String? {
-        return voice?.let { gson.toJson(it) }
+    fun fromTextCategory(textCategory: TextCategory): String {
+        return textCategory.name
     }
     
     @TypeConverter
-    fun toVoiceCharacteristics(json: String?): VoiceCharacteristics? {
-        return json?.let { 
-            gson.fromJson(it, VoiceCharacteristics::class.java)
-        }
+    fun toTextCategory(textCategory: String): TextCategory {
+        return TextCategory.valueOf(textCategory)
     }
     
-    // List<String> converters for specializations and phrases
+    // EmotionalTone converters
+    @TypeConverter
+    fun fromEmotionalTone(emotionalTone: EmotionalTone): String {
+        return emotionalTone.name
+    }
+    
+    @TypeConverter
+    fun toEmotionalTone(emotionalTone: String): EmotionalTone {
+        return EmotionalTone.valueOf(emotionalTone)
+    }
+    
+    // List<String> converters for conditions, tags, and template variables
     @TypeConverter
     fun fromStringList(list: List<String>?): String? {
-        return list?.let { gson.toJson(it) }
+        return list?.let {
+            val adapter: JsonAdapter<List<String>> = moshi.adapter(Types.newParameterizedType(List::class.java, String::class.java))
+            adapter.toJson(it)
+        }
     }
-    
+
     @TypeConverter
     fun toStringList(json: String?): List<String>? {
         return json?.let {
-            val type: Type = object : TypeToken<List<String>>() {}.type
-            gson.fromJson(it, type)
+            val adapter: JsonAdapter<List<String>> = moshi.adapter(Types.newParameterizedType(List::class.java, String::class.java))
+            adapter.fromJson(it)
         }
     }
-    
-    // List<CoachingMessage> converters
+
+    // VoiceCharacteristics converters
+    @TypeConverter
+    fun fromVoiceCharacteristics(voice: VoiceCharacteristics?): String? {
+        return voice?.let {
+            val adapter: JsonAdapter<VoiceCharacteristics> = moshi.adapter(VoiceCharacteristics::class.java)
+            adapter.toJson(it)
+        }
+    }
+
+    @TypeConverter
+    fun toVoiceCharacteristics(value: String?): VoiceCharacteristics? {
+        return value?.let {
+            val adapter: JsonAdapter<VoiceCharacteristics> = moshi.adapter(VoiceCharacteristics::class.java)
+            adapter.fromJson(it)
+        }
+    }
+
+    // CoachingMessage list converters
     @TypeConverter
     fun fromCoachingMessageList(messages: List<CoachingMessage>?): String? {
-        return messages?.let { gson.toJson(it) }
-    }
-    
-    @TypeConverter
-    fun toCoachingMessageList(json: String?): List<CoachingMessage>? {
-        return json?.let {
-            val type: Type = object : TypeToken<List<CoachingMessage>>() {}.type
-            gson.fromJson(it, type)
+        return messages?.let {
+            val adapter: JsonAdapter<List<CoachingMessage>> = moshi.adapter(Types.newParameterizedType(List::class.java, CoachingMessage::class.java))
+            adapter.toJson(it)
         }
     }
-    
-    // Map<String, String> converter for performance metrics
+
     @TypeConverter
-    fun fromStringMap(map: Map<String, String>?): String? {
-        return map?.let { gson.toJson(it) }
-    }
-    
-    @TypeConverter
-    fun toStringMap(json: String?): Map<String, String>? {
-        return json?.let {
-            val type: Type = object : TypeToken<Map<String, String>>() {}.type
-            gson.fromJson(it, type)
+    fun toCoachingMessageList(value: String?): List<CoachingMessage>? {
+        return value?.let {
+            val adapter: JsonAdapter<List<CoachingMessage>> = moshi.adapter(Types.newParameterizedType(List::class.java, CoachingMessage::class.java))
+            adapter.fromJson(it)
         }
     }
-    
-    // IntRange converter (for cadence range)
-    @TypeConverter
-    fun fromIntRange(range: IntRange?): String? {
-        return range?.let { "${it.first}-${it.last}" }
-    }
-    
-    @TypeConverter
-    fun toIntRange(rangeString: String?): IntRange? {
-        return rangeString?.let {
-            val parts = it.split("-")
-            if (parts.size == 2) {
-                IntRange(parts[0].toInt(), parts[1].toInt())
-            } else null
-        }
-    }
-    
-    // FloatRange converter (for heart rate zones)
-    @TypeConverter
-    fun fromFloatRange(range: ClosedFloatingPointRange<Float>?): String? {
-        return range?.let { "${it.start}-${it.endInclusive}" }
-    }
-    
-    @TypeConverter
-    fun toFloatRange(rangeString: String?): ClosedFloatingPointRange<Float>? {
-        return rangeString?.let {
-            val parts = it.split("-")
-            if (parts.size == 2) {
-                parts[0].toFloat()..parts[1].toFloat()
-            } else null
-        }
-    }
-    
-    // MessagePriority converter
-    @TypeConverter
-    fun fromMessagePriority(priority: MessagePriority): String {
-        return priority.name
-    }
-    
-    @TypeConverter
-    fun toMessagePriority(priority: String): MessagePriority {
-        return MessagePriority.valueOf(priority)
-    }
-    
-    // MessageTrigger converter
-    @TypeConverter
-    fun fromMessageTrigger(trigger: MessageTrigger): String {
-        return trigger.name
-    }
-    
-    @TypeConverter
-    fun toMessageTrigger(trigger: String): MessageTrigger {
-        return MessageTrigger.valueOf(trigger)
-    }
-    
-    // List<MessageCondition> converter
-    @TypeConverter
-    fun fromMessageConditionList(conditions: List<MessageCondition>?): String? {
-        return conditions?.let { gson.toJson(it) }
-    }
-    
-    @TypeConverter
-    fun toMessageConditionList(json: String?): List<MessageCondition>? {
-        return json?.let {
-            val type: Type = object : TypeToken<List<MessageCondition>>() {}.type
-            gson.fromJson(it, type)
-        }
-    }
+
 }

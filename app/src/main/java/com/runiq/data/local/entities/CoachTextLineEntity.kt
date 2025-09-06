@@ -11,16 +11,16 @@ import com.runiq.domain.model.TextCategory
 @Entity(
     tableName = "coach_text_lines",
     indices = [
-        Index(value = ["coachId", "category"]),
+        Index(value = ["coach_id", "category"]),
         Index(value = ["category", "conditions"]),
-        Index(value = ["priority", "isActive"]),
-        Index(value = ["coachId", "isActive"])
+        Index(value = ["priority", "is_active"]),
+        Index(value = ["coach_id", "is_active"])
     ],
     foreignKeys = [
         ForeignKey(
             entity = CoachEntity::class,
             parentColumns = ["id"],
-            childColumns = ["coachId"],
+            childColumns = ["coach_id"],
             onDelete = ForeignKey.CASCADE
         )
     ]
