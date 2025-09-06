@@ -200,7 +200,7 @@ dependencies {
     implementation(libs.google.generativeai)
     
     // Security
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.security:security-crypto:1.1.0")
     
     // Logging
     implementation(libs.timber)
@@ -209,7 +209,7 @@ dependencies {
     debugImplementation(libs.leakcanary.android)
     
     // Core Library Desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     
     // Testing
     testImplementation(libs.junit)
