@@ -1,34 +1,34 @@
 [versions]
 # Build Tools
-agp = "8.12.2"
+agp = "8.13.0"
 kotlin = "2.0.21"
 ksp = "2.0.21-1.0.28"
 
 # Core Android
 coreKtx = "1.17.0"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 material = "1.12.0"
-activityCompose = "1.9.3"
-lifecycleRuntime = "2.8.7"
-datastore = "1.1.1"
+activityCompose = "1.11.0"
+lifecycleRuntime = "2.9.4"
+datastore = "1.1.7"
 
 # Jetpack Compose
-composeBom = "2024.12.01"
+composeBom = "2025.09.00"
 composeCompiler = "1.5.15"
-composeNavigation = "2.8.5"
+composeNavigation = "2.9.4"
 
 # Architecture Components
-lifecycle = "2.8.7"
-viewmodel = "2.8.7"
-room = "2.6.1"
-work = "2.10.0"
+lifecycle = "2.9.4"
+viewmodel = "2.9.4"
+room = "2.8.0"
+work = "2.10.4"
 
 # Dependency Injection
 hilt = "2.54"
-hiltNavigation = "1.2.0"
+hiltNavigation = "1.3.0"
 
 # Health Connect
-healthConnect = "1.1.0-alpha11"
+healthConnect = "1.2.0-alpha01"
 
 # Location & Maps
 playServicesLocation = "21.3.0"
@@ -46,7 +46,7 @@ moshi = "1.15.1"
 coil = "2.7.0"
 
 # Audio & Media
-media3 = "1.4.1"
+media3 = "1.8.0"
 spotifyAuth = "2.1.1"
 
 # AI Services
